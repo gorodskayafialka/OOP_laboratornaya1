@@ -13,7 +13,6 @@ public class MatrixManager {
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println(e);
             return null;
         }
     }
@@ -24,7 +23,6 @@ public class MatrixManager {
         }
     catch (IndexOutOfBoundsException e)
     {
-        System.out.println(e);
         return 0;
     }
     }
@@ -35,7 +33,6 @@ public class MatrixManager {
        }
        catch (ArrayIndexOutOfBoundsException e)
        {
-           System.out.println(e);
            return;
        }
     }
@@ -69,7 +66,6 @@ public class MatrixManager {
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println(e);
             return null;
         }
         double[][] result = new double[matrix1.length][matrix2[0].length];
@@ -92,7 +88,6 @@ public class MatrixManager {
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println(e);
             return null;
         }
         double[][] result = new double[matrix1.length][matrix1[0].length];
@@ -113,7 +108,6 @@ public class MatrixManager {
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println(e);
             return null;
         }
         double[][] result = new double[matrix1.length][matrix1[0].length];
@@ -134,7 +128,6 @@ public class MatrixManager {
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println(e);
             return 0;
         }
         int n = matrix.length;
