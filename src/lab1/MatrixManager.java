@@ -4,174 +4,124 @@ public class MatrixManager {
     MatrixManager() {
     }
     //Инициализация матрицы
-    double[][] Initialize(int n, int m) {
-        try {
-            if ((n <= 0) || (m <= 0))
-                throw new IllegalArgumentException("Размер матрицы должен быть хотя бы 1х1");
-            double[][] matrix = new double[n][m];
-            return matrix;
-        }
-        catch (IllegalArgumentException e)
-        {
-            return null;
-        }
+    Matrix Initialize(int n, int m) throws  IllegalArgumentException{
+            if ((n <= 0) || (m <= 0)) {
+                throw new IllegalArgumentException ("Matrix should at least be sized 1х1");
+            }
+            return new Matrix (n, m);
     }
     //Просмотр элемента
-    double ViewElement(double[][] matrix, int i, int j) {
-        try {
-            return matrix[i][j];
-        }
-    catch (IndexOutOfBoundsException e)
-    {
-        return 0;
-    }
+    double ViewElement(Matrix matrix, int i, int j) throws ArrayIndexOutOfBoundsException{
+            return matrix.getElement(i, j);
     }
     //Замена элемента
-   void SetElement(double[][]  matrix, int i, int j, double new_element) {
-       try {
-           matrix[i][j] = new_element;
-       }
-       catch (ArrayIndexOutOfBoundsException e)
-       {
-           return;
-       }
+   void SetElement(Matrix  matrix, int i, int j, double new_element) throws ArrayIndexOutOfBoundsException {
+           matrix.setElement(i, j, new_element);
     }
     //Получение размера
-   int[] GetSize (double[][] matrix)
+   int[] GetSize (Matrix matrix)
     {
-        int[] size = {matrix.length, matrix[0].length};
-        return size;
+        return matrix.getSize();
     }
     //Просмотр размера
-    String ViewSize (double[][] matrix)
+    String ViewSize (Matrix matrix)
     {
-         int [] size = GetSize(matrix);
+         int [] size = matrix.getSize();
         return "Размер матрицы: " + size[0] + "x" + size[1];
     }
     //Умножение на число
-    void MultiplyByNumber(double[][] matrix, double number)
+    void MultiplyByNumber(Matrix matrix, double number)
     {
-        for (int i = 0; i < matrix.length; i++)
-            for (int j = 0; j < matrix[0].length; j++) {
-                matrix[i][j] = matrix[i][j] * number;
+        for (int i = 0; i < matrix.getSize()[0]; i++)
+            for (int j = 0; j < matrix.getSize()[1]; j++) {
+                matrix.setElement(i, j, matrix.getElement(i, j)* number);
             }
     }
     //Перемножение двух матриц
-    double[][] MultiplyMatrixes(double[][] matrix1, double[][] matrix2)
+    Matrix MultiplyMatrixes(Matrix matrix1, Matrix matrix2) throws IllegalArgumentException
     {
-        try
-        {
-            if (matrix1[0].length!= matrix2.length)
-                throw new IllegalArgumentException("Число столбцов первой матрицы не совпадает с числом строк второй");
-        }
-        catch (IllegalArgumentException e)
-        {
-            return null;
-        }
-        double[][] result = new double[matrix1.length][matrix2[0].length];
-        for (int i = 0; i < matrix1.length; i++) {
-            for (int j = 0; j < matrix2[0].length; j++) {
-                for (int k = 0; k < matrix2.length; k++) {
-                    result[i][j] += matrix1[i][k] * matrix2[k][j];
+            if (matrix1.getSize()[1]!= matrix2.getSize()[0])
+                throw new IllegalArgumentException("The number of culumns is not equal to the second matix's number of raws");
+        int n = matrix1.getSize()[0],  m = matrix2.getSize()[1];
+        Matrix result = new Matrix (n, m);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 0; k < matrix2.getSize()[0]; k++) {
+                    result.setElement(i, j, matrix1.getElement(i, k) * matrix2.getElement(k, j));
                 }
             }
         }
         return result;
     }
     //Сложение двух матриц
-    double[][] AddMatrixes (double[][] matrix1, double[][] matrix2)
+    Matrix AddMatrixes (Matrix matrix1, Matrix matrix2) throws IllegalArgumentException
     {
-        try
-        {
-            if ((matrix1.length!= matrix2.length)||(matrix1[0].length!= matrix2[0].length))
-                throw new IllegalArgumentException("Размерности матриц не совпадают");
-        }
-        catch (IllegalArgumentException e)
-        {
-            return null;
-        }
-        double[][] result = new double[matrix1.length][matrix1[0].length];
-        for (int i = 0; i < matrix1.length; i++) {
-            for (int j = 0; j < matrix1[0].length; j++) {
-                result[i][j] = matrix1[i][j] + matrix2[i][j];
+            if ((matrix1.getSize()[0]!= matrix2.getSize()[0])||(matrix1.getSize()[1]!= matrix2.getSize()[1]))
+                throw new IllegalArgumentException("The matrixes have different sizes");
+            int n = matrix1.getSize()[0], m = matrix1.getSize()[1];
+        Matrix result = new Matrix(n, m);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                result.setElement(i, j, matrix1.getElement(i, j) + matrix2.getElement(i, j));
             }
         }
         return result;
     }
     //Вычитание второй матрицы из первой
-    double[][] SubtractMatrixes (double[][] matrix1, double[][] matrix2)
+    Matrix SubtractMatrixes (Matrix matrix1, Matrix matrix2) throws IllegalArgumentException
     {
-        try
-        {
-            if ((matrix1.length!= matrix2.length)||(matrix1[0].length!= matrix2[0].length))
-                throw new IllegalArgumentException("Размерности матриц не совпадают");
-        }
-        catch (IllegalArgumentException e)
-        {
-            return null;
-        }
-        double[][] result = new double[matrix1.length][matrix1[0].length];
-        for (int i = 0; i < matrix1.length; i++) {
-            for (int j = 0; j < matrix1[0].length; j++) {
-                result[i][j] = matrix1[i][j] - matrix2[i][j];
+        if ((matrix1.getSize()[0]!= matrix2.getSize()[0])||(matrix1.getSize()[1]!= matrix2.getSize()[1]))
+            throw new IllegalArgumentException("The matrixes have different sizes");
+        int n = matrix1.getSize()[0], m = matrix1.getSize()[1];
+        Matrix result = new Matrix(n, m);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                result.setElement(i, j, matrix1.getElement(i, j) - matrix2.getElement(i, j));
             }
         }
         return result;
     }
     //Определитель
-    double Determinant (double[][] matrix)
+    double Determinant (Matrix matrix) throws IllegalArgumentException
     {
-        try
-        {
-            if (matrix.length != matrix[0].length)
-                throw new IllegalArgumentException("Матрица не квадратная");
-        }
-        catch (IllegalArgumentException e)
-        {
-            return 0;
-        }
-        int n = matrix.length;
+            if (matrix.getSize()[0] != matrix.getSize()[1])
+                throw new IllegalArgumentException("The matrix is not square");
+        int n = matrix.getSize()[0];
         double determinant = 0;
-        double[][] submatrix = new double[n-1][n-1];
-        if (n == 1) return matrix[0][0];
+        Matrix submatrix = new Matrix(n-1,n-1);
+        if (n == 1) return matrix.getElement(0,0);
         if (n == 2)
-            return matrix[1][1]*matrix[0][0] - matrix[0][1]* matrix[1][0];
+            return matrix.getElement(1,1)*matrix.getElement(0,0) - matrix.getElement(0,1)* matrix.getElement(1,0);
         int sign = 1;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n-1; j++) {
                 int a = 0;
                 for (int k = 0; k < n; k++) {
                     if (k == i) continue;
-                    submatrix[j][a] = matrix[j+1][k];
+                    submatrix.setElement(j, a, matrix.getElement(j+1,k));
                     a++;
                 }
             }
-            determinant += Math.pow(-1, i) * matrix[0][i]*Determinant(submatrix);
+            determinant += Math.pow(-1, i) * matrix.getElement(0,i)*Determinant(submatrix);
         }
         return  determinant;
     }
     //toString
-    String toString (double[][] matrix)
+    String toString (Matrix matrix)
     {
         String StringMatrix = "";
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                StringMatrix += String.format("%10.2f", matrix[i][j]);
+        for (int i = 0; i < matrix.getSize()[0]; i++) {
+            for (int j = 0; j < matrix.getSize()[1]; j++) {
+                StringMatrix += String.format("%10.2f", matrix.getElement(i, j));
             }
             StringMatrix += "\n";
         }
         return StringMatrix;
     }
-    //Сравнегние матриц
-    boolean Equals(double[][] matrix1, double[][] matrix2)
+
+    //Сравнение матриц
+    boolean Equals(Matrix matrix1, Matrix matrix2)
     {
-        if ((matrix1.length!= matrix2.length)||(matrix1[0].length!= matrix2[0].length))
-            return false;
-        for (int i = 0; i < matrix1.length; i++) {
-            for (int j = 0; j < matrix1[0].length; j++) {
-               if (matrix1[i][j]!=matrix2[i][j]) return false;
-            }
-        }
-        return true;
+        return matrix1.equals(matrix2);
     }
 }
