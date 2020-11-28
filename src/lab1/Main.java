@@ -20,20 +20,8 @@ public class Main {
 			m.SetElement(matrix2, i, j, counter);
 			}
 		}
-	try {
 		m.SetElement(matrix2, 1, 2, 4);
-	}
-	catch (ArrayIndexOutOfBoundsException e)
-		{
-			System.out.println(e);
-		}
-	try {
 		m.SetElement(matrix2, 3, 3, 1);
-	}
-	catch (ArrayIndexOutOfBoundsException e)
-	{
-		System.out.println(e);
-	}
 		try {
 			m.SetElement(matrix2, 3, -3, 1);
 		}
@@ -63,7 +51,6 @@ public class Main {
 		System.out.println(e);
 		matrix5 = new Matrix(1, 1);
 	}
-	matrix5 = m.MultiplyMatrixes(matrix3, matrix4);
 	m.MultiplyByNumber(matrix1, m.Determinant(matrix2));
 	if (!m.Equals(matrix1, matrix2)) {
 		System.out.println(m.toString(matrix1));
